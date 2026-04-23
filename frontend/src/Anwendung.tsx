@@ -1,12 +1,20 @@
 import { useState } from "react";
 import Kopfbereich from "./komponenten/KopfBereich";
+import RechnungsFormular from "./komponenten/RechnungsFormular";
 import RechnungsListe from "./komponenten/RechnungsListe";
 import type { Rechnung, RechnungsStatus } from "./typen/Rechnung";
 
 type StatusFilter = "ALLE" | RechnungsStatus;
 
+type NeueRechnungDaten = {
+    rechnungsNummer: string;
+    kundenName: string;
+    status: RechnungsStatus;
+    nettoBetrag: number;
+};
+
 function Anwendung() {
-    const rechnungen: Rechnung[] = [
+    const [rechnungen, setzeRechnungen] = useState<Rechnung[]> ([
         {
             id: 1,
             rechnungsNummer: "RE-2026-0001",
@@ -43,10 +51,36 @@ function Anwendung() {
             steuerBetrag: 142.5,
             bruttoBetrag: 892.5,
         },
-    ];
+    ]);
 
     const [suchText, setzeSuchText] = useState("");
     const [statusFilter, setzeStatusFilter] = useState<StatusFilter>("ALLE");
+
+    function rechnungAnlegen(daten: NeueRechnungDaten) {
+        const neueId = 
+        rechnungen.length > 0 
+        ? Math.max(...rechnungen.map((rechnung) => rechnung.id)) +1
+        : 1;
+
+        const steuerBetrag = Number((daten.nettoBetrag * 0.19).toFixed(2));
+        const bruttoBetrag = Number((daten.nettoBetrag + steuerBetrag).toFixed(2));
+
+        const neueRechnung: Rechnung = {
+            id: neueId,
+            rechnungsNummer: daten.rechnungsNummer,
+            kundenName: daten.kundenName,
+            status: daten.status,
+            nettoBetrag: daten.nettoBetrag,
+            steuerBetrag,
+            bruttoBetrag,
+        };
+
+        setzeRechnungen((vorherigeRechnungen) => [
+            neueRechnung,
+            ...vorherigeRechnungen,
+        ])
+    }
+
     const gefilterteRechnungen = rechnungen.filter((rechnung) => {
         const suchTextKlein = suchText.toLowerCase();
 
@@ -64,6 +98,9 @@ function Anwendung() {
     return (
         <main>
             <Kopfbereich titel="Rechnungs-Anwendung" />
+
+            <RechnungsFormular beiRechnungAnlegen={rechnungAnlegen}/>
+
             <section className="filterBereich">
                 <h2>Filter</h2>
 
