@@ -147,6 +147,9 @@ Rechnung mit ID 5 löschen → DELETE /api/invoices/id/5
 * *Ein gesteuertes Eingabefeld bekommt seinen Wert aus dem State.*
 * *Abgeleitete Daten wie gefilterteRechnungen werden berechnet, nicht extra gespeichert.*
 * *State liegt dort, wo die Logik gesteuert wird.*
+
+
+
 1. Was ist useState?
 
    * Durch den useState können veränderliche Werte gespeichert werden.
@@ -179,4 +182,52 @@ Rechnung mit ID 5 löschen → DELETE /api/invoices/id/5
    * die restlichen Komponenten sind nur für die Anzeige zuständig - klare Trennung der Aufgaben!
    * Ich sehe das wie folgt: Anwendung.tsx beinhaltet für mich das Model und Control
    * RechnungsListe.tsx ist für das View zuständig! MVC-Prinzip Denkweise!
+
+
+
+**Modul 4 – Formulare, neue Rechnungen anlegen und Daten nach oben melden**
+
+* *Die wichtigsten Sätze aus Modul 4 für deine Notizen*
+* *Formulare bestehen aus mehreren gesteuerten Eingabefeldern.*
+* *Veränderliche Formularwerte werden im State gespeichert.*
+* *Eine Unterkomponente kann über eine Callback-Prop Daten nach oben melden.*
+* *Eine Callback-Prop ist eine Funktion, die als Prop übergeben wird.*
+* *preventDefault() verhindert das Neuladen der Seite beim Absenden eines Formulars.*
+* *Die Hauptliste der Rechnungen liegt in Anwendung.tsx, weil dort die zentrale Steuerung stattfindet.*
+* *RechnungsFormular.tsx verwaltet die Eingaben, RechnungsListe.tsx zeigt Daten nur an.*
+* *Wenn neuer State vom alten State abhängt, nutzt man die Funktionsschreibweise im Setter.*
+* *Anzeige und Logik sollen in React sauber getrennt bleiben.*
+* *Neue Rechnungen werden oben im Hauptzustand ergänzt und danach automatisch neu angezeigt.*
+
+
+
+1. Was ist eine Callback-Prop?
+
+   * Eine Callback-Prop ist dafür da, dass die Hauptkomponente nicht überlagert wird.
+   * Es wird Sinngemäß eine neue Unterkomponente erstellt. In diesem Fall Rechnungsformular.
+   * In Rechnungsformular wird der Anwendungsfall Rechnung anlegen behandelt.
+   * Und in der Hauptkomponente wird dieser nur aufgerufen.
+   * Sowas betrachte ich als Java Entwickler in einem Trichter-Modell
+2. Warum liegt die Rechnungs-Liste in Anwendung.tsx?
+
+   * Anwendung.tsx ist hier die Hauptkomponente und es werden alle Daten die Angezeigt werden sollen hier gebündelt und weitergegeben!
+   * Wahrscheinlich wird hier irgendwann auch der API-Aufruf behandelt.
+3. Warum hat das Formular eigenen State?
+
+   * Alle veränderlichen Daten brauchen einen State!
+   * Da wir eine Unterkomponente bestimmt haben ist es auch sinnvoll diesen State in Rechnungsformular abzubilden!
+4. Warum verwenden wir preventDefault()?
+
+   * Damit die Seite nicht Neu geladen wird!
+5. Warum nutzen wir beim Aktualisieren der Rechnungen die Funktionsschreibweise im Setter?
+
+   * weil der Setter den State zur Änderung zwingt bzw. hier:
+
+     * const \[rechnungen, setzeRechnungen] = useState<Rechnung\[]>
+     * setzeRechnungen den State ändern kann und Rechnungen nur den aktuellen Stand wiedergibt!
+6. Warum ist RechnungsListe.tsx weiter nur für die Anzeige zuständig?
+
+   * Weil wir in Komponenten Prinzip arbeiten
+   * jeder Anwendungsfall wird in Komponenten definiert und alles was zur Anzeige oder Eingabe oder Ausgabe zuständig ist, bekommt eine Komponente
+   * Die RechnungsListe.tsx hat nur die Aufgabe die Liste anzuzeigen und dieser wird üblicherweise in der Hauptkomponente aufgerufen!
 
