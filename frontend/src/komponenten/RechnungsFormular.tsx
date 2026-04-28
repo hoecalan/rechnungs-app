@@ -1,19 +1,17 @@
 import { useState } from "react";
-import type { RechnungsStatus } from "../typen/Rechnung";
-
-type NeueRechnungDaten = {
-    rechnungsNummer: string;
-    kundenName: string;
-    status: RechnungsStatus;
-    nettoBetrag: number;
-};
+import type { 
+    NeueRechnungDaten, 
+    RechnungsStatus, 
+} from "../typen/Rechnung";
 
 type RechnungsFormularEigenschaften = {
     beiRechnungAnlegen: (daten: NeueRechnungDaten) => void;
+    deaktiviert?: boolean;
 };
 
 function RechnungsFormular({
     beiRechnungAnlegen,
+    deaktiviert = false,
 }: RechnungsFormularEigenschaften) {
     const [rechnungsNummer, setzeRechnungsNummer] = useState("");
     const [kundenName, setzeKundenName] = useState("");
@@ -59,6 +57,7 @@ function RechnungsFormular({
                         id="rechnungsNummer"
                         type="text"
                         value={rechnungsNummer}
+                        disabled={deaktiviert}
                         onChange={(ereignis) => setzeRechnungsNummer(ereignis.target.value)}
                     />
                 </div>
@@ -69,6 +68,7 @@ function RechnungsFormular({
                         id="kundenName"
                         type="text"
                         value={kundenName}
+                        disabled={deaktiviert}
                         onChange={(ereignis) => setzeKundenName(ereignis.target.value)}
                     />
                 </div>
@@ -78,6 +78,7 @@ function RechnungsFormular({
                     <select
                         id="status"
                         value={status}
+                        disabled={deaktiviert}
                         onChange={(ereignis) => setzeStatus(ereignis.target.value as RechnungsStatus)}
                     >
                         <option value={"OFFEN"}>OFFEN</option>
@@ -92,11 +93,12 @@ function RechnungsFormular({
                         id="nettoBetrag"
                         type="number"
                         value={nettoBetrag}
+                        disabled={deaktiviert}
                         onChange={(ereignis) => setzeNettoBetrag(ereignis.target.value)}
                     />
                 </div>
 
-                <button type="submit">Rechnung anlegn</button>
+                <button type="submit" disabled={deaktiviert}>Rechnung anlegn</button>
             </form>
         </section>
 
