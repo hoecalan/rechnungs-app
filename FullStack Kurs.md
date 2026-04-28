@@ -1,233 +1,1 @@
-**Modul 1 – Web-Grundlagen für FullStack-Entwickler**
-
-* *Die Benutzeroberfläche spricht mit dem Backend.*
-* *Das Backend spricht mit der Datenbank.*
-* *Die Benutzeroberfläche spricht nicht direkt mit der Datenbank.*
-* *HTTP ist das Protokoll für die Kommunikation zwischen Client und Server.*
-* *Eine Anfrage geht von der Benutzeroberfläche an das Backend.*
-* *Eine Antwort kommt vom Backend zurück.*
-* *GET liest Daten.*
-* *POST legt neue Daten an.*
-* *PUT ändert vorhandene Daten vollständig.*
-* *PATCH ändert vorhandene Daten teilweise.*
-* *DELETE löscht Daten.*
-* *CRUD bedeutet Create, Read, Update, Delete.*
-* *JSON ist ein textbasiertes Datenformat zum Austausch strukturierter Daten.*
-* *REST baut Schnittstellen ressourcenorientiert auf.*
-* *Saubere Endpunkte sind zum Beispiel /api/rechnungen und /api/rechnungen/5.*
-* *404 Not Found bedeutet: Die angeforderte Ressource wurde nicht gefunden.*
-* *CORS ist eine Browser-Sicherheitsprüfung zwischen Benutzeroberfläche und Backend.*
-* *Fachlogik wie Berechnungen gehört ins Backend.*
-* *Die Datenbank speichert Daten dauerhaft, aber sie ist nicht das Backend.*
-
-
-
-1\. Warum spricht das Frontend nicht direkt mit der Datenbank?
-
-* Das Frontend nimmt nur die Eingaben des Nutzers an und gibt sie weiter ans Backend.
-* Das Frontend ist nur zuständig für die Präsentationslogik, es geht hier um die Abbildung des Userverhaltens.
-* Das Backend nimmt die Nutzer-Eingaben über das Frontend entgegen und validiert die Eingaben. Dabei werden die Eingaben in die Geschäftslogik eingearbeitet.
-* Das Backend stell Sicherheitsprüfungen, Berechnungen und baut die Fachlichkeit der Anwendung auf. Die Daten werden ab hier dann in die Datenbank geschrieben.
-
-2\. Was ist der Unterschied zwischen Frontend, Backend und Datenbank?
-
-* Frontend bildet die Präsentationslogik ab bzw. übersetzt das Userverwalten auf der Benutzeroberfläche.
-* Das Backend bildet die Fachlichkeit der Anwendung ab. Stellt Plausibilitäten bereit und gibt dem Frontend wichtige Infos zur Verfügung. Von der Fachlogik werden die Eingaben in die Datenbank geschrieben.
-* In der Datenbank können CRUD-Befehle ausgeführt werden.
-* Das Hertzstück der Anwendung ist lediglich das Backend. Dieser bestimmt wo es lang geht!
-
-3\. Wofür steht CRUD?
-
-* C-Create
-* R-Read
-* U-Update
-* D-Delete
-* das sind Datenbankbefehle. Durch diese Befehle können Daten in der Datenbank manipuliert werden. Sowohl anlegen von Datensätzen, bis zu auslesen der Daten, Ändern der Daten und löschen von Daten aus der Datenbank.
-
-4\. Welche HTTP-Methode nutzt du, um eine neue Rechnung anzulegen?
-
-* Mit der POST-Methode können Daten in die Datenbank angelegt werden
-
-5\. Welche HTTP-Methode nutzt du, um alle Rechnungen zu laden?
-
-* Die GET-Methode liefert das auslesen der Daten
-
-6\. Was bedeutet Statuscode 404?
-
-* 404 Not Found -> Ressource nicht gefunden
-
-7\. Was ist JSON?
-
-* JSON ist eine Dateiformat, mit dem Frontend und Backend kommunizieren, eine Art Geheimcode zwischen den beiden Schichten
-* Die Schlüsselparameter müssen eindeutig sein und müssen vom beiden Schichten gleich Aufgebaut sein, damit die Daten ausgetauscht werden können!
-
-8\. Warum kann CORS lokal ein Thema werden?
-
-* CORS ist eine Sicherheitsüberprüfung von Browser.
-* Wenn Client und Server auf unterschiedlichen Ports laufen, kann keine Request-Abfrage vom Browser nicht freigegeben werden.
-* Die Einstellung muss evtl. in Spring Boot vorgenommen werden. Ich glaube man muss die IP-Adresse bzw. wenn die Anwendung auf einem externen Server läuft muss auf der Backend-Seite gewisse Freigaben erteilt werden.
-
-
-
-Kleine Praxisaufgabe
-
-
-
-Ordne die passenden HTTP-Methoden zu:
-
-
-
-Alle Rechnungen laden → GET /api/invoices
-
-Eine Rechnung mit ID 5 laden → GET /api/invoices/id/5
-
-Neue Rechnung anlegen → POST /api/invoices
-
-Rechnung mit ID 5 komplett ändern → PUT /api/invoices/id/5
-
-Rechnung mit ID 5 löschen → DELETE /api/invoices/id/5
-
-
-
-**Modul 2 – React-Grundlagen und erstes Frontend-Gerüst**
-
-* *React baut Benutzeroberflächen aus Komponenten auf.*
-* *Eine Komponente ist eine Funktion, die Benutzeroberfläche zurückgibt.*
-* *In React denkst du in kleinen wiederverwendbaren Bausteinen.*
-* *JSX ist eine HTML-ähnliche Schreibweise in React.*
-* *In JSX heißt class immer className.*
-* *Werte und Ausdrücke werden in JSX mit { } eingebettet.*
-* *Komponenten beginnen mit einem Großbuchstaben.*
-* *Props sind Eingabewerte für Komponenten.*
-* *Props kommen von außen in eine Komponente hinein.*
-* *State sind veränderliche Daten innerhalb einer Komponente.*
-* *Props und State sind nicht dasselbe.*
-* *TypeScript-Typen wie Rechnung geben deinen Daten Struktur.*
-* *Komponenten sollen klare Aufgaben haben.*
-* *Große Dateien werden in kleinere Komponenten aufgeteilt.*
-* *Daten fließen in React von oben nach unten.*
-* *Anwendung.tsx gibt Daten an RechnungsListe.tsx weiter.*
-* *Listen werden oft mit map() gerendert.*
-* *Jedes Element in einer Liste braucht in React meist einen eindeutigen key.*
-* *Eine saubere Struktur macht React-Code lesbarer und wartbarer.*
-* *Erst die Struktur sauber verstehen, dann Interaktivität und Schnittstellen anbinden.*
-
-
-
-1. Was ist eine React-Komponente?
-
-   * React ist an sich eine Bibliothek für Benutzeroberflächen
-   * Und die Benutzeroberflächen werden in Komponenten aufgebaut diese sind React-Komponenten
-   * Eine Komponente hier ist eine Funktion die die Benutzeroberfläche zurückgibt
-2. Was ist der Unterschied zwischen Props und State?
-
-   * Props sind Eingabewerte für Komponenten bzw. sowas wie ein PLatzhalter, damit in der Obersten-Komponente der Wert gesetzt werden kann - hier z.B. Titel wird in Kopfbereich eingegeben oder festgelegt durch die Komponente Anwendung!
-   * Durch Props werden Komponenten wiederverwendbar - Props kommen von außen
-   * State dahingegen werden innerhalb der Komponente behandelt
-   * Soweit ich es verstanden habe, wurde kein State verwendet in Rechnungs-Anwendung oder?
-3. Warum nutzen wir TypeScript-Typen wie Rechnung?
-
-   * TypeScript-Typen helfen uns eine klare Struktur zu definieren
-   * Unsere Entitäten können wir hier sauber abbilden und die variablen sauber definieren
-4. Warum braucht map() in React meist einen key?
-
-   * das weiß ich nicht. Du musst mir das genauer erklären
-5. Warum haben wir RechnungsListe ausgelagert und nicht alles in Anwendung.tsx geschrieben?
-
-   * Die Komponente RechnungsListe kümmert sich nur ums anzeigen der Daten. Die Daten werden in Anwendung.tsx gefüllt bzw. bereitgestellt.
-   * Die Daten von oben nach unten weitergeben
-   * Jede Komponente hat eine Aufgabe zu erfüllen und daher sollte man nicht alles in der Hauptkomponente abbilden. Das wäre unübersichtlich und keine Struktur würde das Programmieren erschweren!
-
-
-
-**Modul 3 – State, Eingaben, Ereignisse und erste Interaktivitaet**
-
-* *useState speichert veränderliche Werte in einer Komponente.*
-* *onChange reagiert auf Änderungen in Eingabefeldern.*
-* *Ein gesteuertes Eingabefeld bekommt seinen Wert aus dem State.*
-* *Abgeleitete Daten wie gefilterteRechnungen werden berechnet, nicht extra gespeichert.*
-* *State liegt dort, wo die Logik gesteuert wird.*
-
-
-
-1. Was ist useState?
-
-   * Durch den useState können veränderliche Werte gespeichert werden.
-   * es ist ein React-hook
-   * diese Art von speichern vergleiche ich mit der Collection Funktion bei Java.
-   * der Zustand des Benutzerverhaltens muss irgendwo gespeichert werden da bietet React diese Lösung.
-   * Vorteil davon ist es, dass auf die Veränderungen des Benutzers sehr schnell reagiert werden kann.
-   * Dieser Hook ist eigentlich eine Art von Programmierstil oder eine sehr gute Herangehensweise bei einer typtypisierte sprache welches nicht objekt orientiert ist bietet es einen großer Vorteil an den Code zu Clustern!
-2. Warum brauchen wir fuer das Suchfeld State?
-
-   * Das Suchfeld bietet eine Veränderung an also dynamisches Benutzerverhalten!
-   * Daher müssen wir hier die Veränderung festhalten und sofort wieder zurückgeben!
-3. Was macht onChange?
-
-   * die onChange Method übersetzt das Benutzerverhalten und erzeugt ein Ereignis.
-   * Dieses Verhalten sehe genau so wie in Java, wenn man in MVC-Pattern Prinzip programmiert, da hat man in Control die Möglichkeit das Userverhalten direkt anzunehmen, zu übersetzen und an die nächsten Stellen weiterleiten, so verstehe ich es!
-4. Warum speichern wir gefilterteRechnungen nicht extra im State?
-
-   * Unter gefilterteRechnungen speichern wir mehrere Veränderungen ab.
-   * das heißt im Objekt Rechnung ändern wir hier zwei Variablen.
-   * Diese zwei Variablen wurden bereits in States gesetzt und unter gefilterteRechnungen nehme die direkte Änderungen an und schreibe diese in unsere Liste bzw. Filtern nur noch den Veränderungen!
-5. Was ist ein gesteuertes Eingabefeld?
-
-   * das heißt für mich die Änderung durch Userverhalten wird in Echtzeit übersetz und sofort angezeigt!
-   * Der State reguliert hier alles.
-   * am Anfang ist ein Standardwert festgelegt hier ein leer String und durch Eingabe ins Feld wird die Änderung sofort sichtbar und der State aktualisiert sich mit!
-6. Warum liegt der State in Anwendung.tsx und nicht in RechnungsListe.tsx?
-
-   * In der Anwendung.tsx werden die Daten bereitgestellt und deshalb wird auch die Präsentationslogik hier aufgebaut.
-   * die restlichen Komponenten sind nur für die Anzeige zuständig - klare Trennung der Aufgaben!
-   * Ich sehe das wie folgt: Anwendung.tsx beinhaltet für mich das Model und Control
-   * RechnungsListe.tsx ist für das View zuständig! MVC-Prinzip Denkweise!
-
-
-
-**Modul 4 – Formulare, neue Rechnungen anlegen und Daten nach oben melden**
-
-* *Die wichtigsten Sätze aus Modul 4 für deine Notizen*
-* *Formulare bestehen aus mehreren gesteuerten Eingabefeldern.*
-* *Veränderliche Formularwerte werden im State gespeichert.*
-* *Eine Unterkomponente kann über eine Callback-Prop Daten nach oben melden.*
-* *Eine Callback-Prop ist eine Funktion, die als Prop übergeben wird.*
-* *preventDefault() verhindert das Neuladen der Seite beim Absenden eines Formulars.*
-* *Die Hauptliste der Rechnungen liegt in Anwendung.tsx, weil dort die zentrale Steuerung stattfindet.*
-* *RechnungsFormular.tsx verwaltet die Eingaben, RechnungsListe.tsx zeigt Daten nur an.*
-* *Wenn neuer State vom alten State abhängt, nutzt man die Funktionsschreibweise im Setter.*
-* *Anzeige und Logik sollen in React sauber getrennt bleiben.*
-* *Neue Rechnungen werden oben im Hauptzustand ergänzt und danach automatisch neu angezeigt.*
-
-
-
-1. Was ist eine Callback-Prop?
-
-   * Eine Callback-Prop ist dafür da, dass die Hauptkomponente nicht überlagert wird.
-   * Es wird Sinngemäß eine neue Unterkomponente erstellt. In diesem Fall Rechnungsformular.
-   * In Rechnungsformular wird der Anwendungsfall Rechnung anlegen behandelt.
-   * Und in der Hauptkomponente wird dieser nur aufgerufen.
-   * Sowas betrachte ich als Java Entwickler in einem Trichter-Modell
-2. Warum liegt die Rechnungs-Liste in Anwendung.tsx?
-
-   * Anwendung.tsx ist hier die Hauptkomponente und es werden alle Daten die Angezeigt werden sollen hier gebündelt und weitergegeben!
-   * Wahrscheinlich wird hier irgendwann auch der API-Aufruf behandelt.
-3. Warum hat das Formular eigenen State?
-
-   * Alle veränderlichen Daten brauchen einen State!
-   * Da wir eine Unterkomponente bestimmt haben ist es auch sinnvoll diesen State in Rechnungsformular abzubilden!
-4. Warum verwenden wir preventDefault()?
-
-   * Damit die Seite nicht Neu geladen wird!
-5. Warum nutzen wir beim Aktualisieren der Rechnungen die Funktionsschreibweise im Setter?
-
-   * weil der Setter den State zur Änderung zwingt bzw. hier:
-
-     * const \[rechnungen, setzeRechnungen] = useState<Rechnung\[]>
-     * setzeRechnungen den State ändern kann und Rechnungen nur den aktuellen Stand wiedergibt!
-6. Warum ist RechnungsListe.tsx weiter nur für die Anzeige zuständig?
-
-   * Weil wir in Komponenten Prinzip arbeiten
-   * jeder Anwendungsfall wird in Komponenten definiert und alles was zur Anzeige oder Eingabe oder Ausgabe zuständig ist, bekommt eine Komponente
-   * Die RechnungsListe.tsx hat nur die Aufgabe die Liste anzuzeigen und dieser wird üblicherweise in der Hauptkomponente aufgerufen!
-
+**Modul 1 – Web-Grundlagen für FullStack-Entwickler*** *Die Benutzeroberfläche spricht mit dem Backend.** *Das Backend spricht mit der Datenbank.** *Die Benutzeroberfläche spricht nicht direkt mit der Datenbank.** *HTTP ist das Protokoll für die Kommunikation zwischen Client und Server.** *Eine Anfrage geht von der Benutzeroberfläche an das Backend.** *Eine Antwort kommt vom Backend zurück.** *GET liest Daten.** *POST legt neue Daten an.** *PUT ändert vorhandene Daten vollständig.** *PATCH ändert vorhandene Daten teilweise.** *DELETE löscht Daten.** *CRUD bedeutet Create, Read, Update, Delete.** *JSON ist ein textbasiertes Datenformat zum Austausch strukturierter Daten.** *REST baut Schnittstellen ressourcenorientiert auf.** *Saubere Endpunkte sind zum Beispiel /api/rechnungen und /api/rechnungen/5.** *404 Not Found bedeutet: Die angeforderte Ressource wurde nicht gefunden.** *CORS ist eine Browser-Sicherheitsprüfung zwischen Benutzeroberfläche und Backend.** *Fachlogik wie Berechnungen gehört ins Backend.** *Die Datenbank speichert Daten dauerhaft, aber sie ist nicht das Backend.*1\. Warum spricht das Frontend nicht direkt mit der Datenbank?* Das Frontend nimmt nur die Eingaben des Nutzers an und gibt sie weiter ans Backend.* Das Frontend ist nur zuständig für die Präsentationslogik, es geht hier um die Abbildung des Userverhaltens.* Das Backend nimmt die Nutzer-Eingaben über das Frontend entgegen und validiert die Eingaben. Dabei werden die Eingaben in die Geschäftslogik eingearbeitet.* Das Backend stell Sicherheitsprüfungen, Berechnungen und baut die Fachlichkeit der Anwendung auf. Die Daten werden ab hier dann in die Datenbank geschrieben.2\. Was ist der Unterschied zwischen Frontend, Backend und Datenbank?* Frontend bildet die Präsentationslogik ab bzw. übersetzt das Userverwalten auf der Benutzeroberfläche.* Das Backend bildet die Fachlichkeit der Anwendung ab. Stellt Plausibilitäten bereit und gibt dem Frontend wichtige Infos zur Verfügung. Von der Fachlogik werden die Eingaben in die Datenbank geschrieben.* In der Datenbank können CRUD-Befehle ausgeführt werden.* Das Hertzstück der Anwendung ist lediglich das Backend. Dieser bestimmt wo es lang geht!3\. Wofür steht CRUD?* C-Create* R-Read* U-Update* D-Delete* das sind Datenbankbefehle. Durch diese Befehle können Daten in der Datenbank manipuliert werden. Sowohl anlegen von Datensätzen, bis zu auslesen der Daten, Ändern der Daten und löschen von Daten aus der Datenbank.4\. Welche HTTP-Methode nutzt du, um eine neue Rechnung anzulegen?* Mit der POST-Methode können Daten in die Datenbank angelegt werden5\. Welche HTTP-Methode nutzt du, um alle Rechnungen zu laden?* Die GET-Methode liefert das auslesen der Daten6\. Was bedeutet Statuscode 404?* 404 Not Found -> Ressource nicht gefunden7\. Was ist JSON?* JSON ist eine Dateiformat, mit dem Frontend und Backend kommunizieren, eine Art Geheimcode zwischen den beiden Schichten* Die Schlüsselparameter müssen eindeutig sein und müssen vom beiden Schichten gleich Aufgebaut sein, damit die Daten ausgetauscht werden können!8\. Warum kann CORS lokal ein Thema werden?* CORS ist eine Sicherheitsüberprüfung von Browser.* Wenn Client und Server auf unterschiedlichen Ports laufen, kann keine Request-Abfrage vom Browser nicht freigegeben werden.* Die Einstellung muss evtl. in Spring Boot vorgenommen werden. Ich glaube man muss die IP-Adresse bzw. wenn die Anwendung auf einem externen Server läuft muss auf der Backend-Seite gewisse Freigaben erteilt werden.Kleine PraxisaufgabeOrdne die passenden HTTP-Methoden zu:Alle Rechnungen laden → GET /api/invoicesEine Rechnung mit ID 5 laden → GET /api/invoices/id/5Neue Rechnung anlegen → POST /api/invoicesRechnung mit ID 5 komplett ändern → PUT /api/invoices/id/5Rechnung mit ID 5 löschen → DELETE /api/invoices/id/5**Modul 2 – React-Grundlagen und erstes Frontend-Gerüst*** *React baut Benutzeroberflächen aus Komponenten auf.** *Eine Komponente ist eine Funktion, die Benutzeroberfläche zurückgibt.** *In React denkst du in kleinen wiederverwendbaren Bausteinen.** *JSX ist eine HTML-ähnliche Schreibweise in React.** *In JSX heißt class immer className.** *Werte und Ausdrücke werden in JSX mit { } eingebettet.** *Komponenten beginnen mit einem Großbuchstaben.** *Props sind Eingabewerte für Komponenten.** *Props kommen von außen in eine Komponente hinein.** *State sind veränderliche Daten innerhalb einer Komponente.** *Props und State sind nicht dasselbe.** *TypeScript-Typen wie Rechnung geben deinen Daten Struktur.** *Komponenten sollen klare Aufgaben haben.** *Große Dateien werden in kleinere Komponenten aufgeteilt.** *Daten fließen in React von oben nach unten.** *Anwendung.tsx gibt Daten an RechnungsListe.tsx weiter.** *Listen werden oft mit map() gerendert.** *Jedes Element in einer Liste braucht in React meist einen eindeutigen key.** *Eine saubere Struktur macht React-Code lesbarer und wartbarer.** *Erst die Struktur sauber verstehen, dann Interaktivität und Schnittstellen anbinden.*1. Was ist eine React-Komponente?   * React ist an sich eine Bibliothek für Benutzeroberflächen   * Und die Benutzeroberflächen werden in Komponenten aufgebaut diese sind React-Komponenten   * Eine Komponente hier ist eine Funktion die die Benutzeroberfläche zurückgibt2. Was ist der Unterschied zwischen Props und State?   * Props sind Eingabewerte für Komponenten bzw. sowas wie ein PLatzhalter, damit in der Obersten-Komponente der Wert gesetzt werden kann - hier z.B. Titel wird in Kopfbereich eingegeben oder festgelegt durch die Komponente Anwendung!   * Durch Props werden Komponenten wiederverwendbar - Props kommen von außen   * State dahingegen werden innerhalb der Komponente behandelt   * Soweit ich es verstanden habe, wurde kein State verwendet in Rechnungs-Anwendung oder?3. Warum nutzen wir TypeScript-Typen wie Rechnung?   * TypeScript-Typen helfen uns eine klare Struktur zu definieren   * Unsere Entitäten können wir hier sauber abbilden und die variablen sauber definieren4. Warum braucht map() in React meist einen key?   * das weiß ich nicht. Du musst mir das genauer erklären5. Warum haben wir RechnungsListe ausgelagert und nicht alles in Anwendung.tsx geschrieben?   * Die Komponente RechnungsListe kümmert sich nur ums anzeigen der Daten. Die Daten werden in Anwendung.tsx gefüllt bzw. bereitgestellt.   * Die Daten von oben nach unten weitergeben   * Jede Komponente hat eine Aufgabe zu erfüllen und daher sollte man nicht alles in der Hauptkomponente abbilden. Das wäre unübersichtlich und keine Struktur würde das Programmieren erschweren!**Modul 3 – State, Eingaben, Ereignisse und erste Interaktivitaet*** *useState speichert veränderliche Werte in einer Komponente.** *onChange reagiert auf Änderungen in Eingabefeldern.** *Ein gesteuertes Eingabefeld bekommt seinen Wert aus dem State.** *Abgeleitete Daten wie gefilterteRechnungen werden berechnet, nicht extra gespeichert.** *State liegt dort, wo die Logik gesteuert wird.*1. Was ist useState?   * Durch den useState können veränderliche Werte gespeichert werden.   * es ist ein React-hook   * diese Art von speichern vergleiche ich mit der Collection Funktion bei Java.   * der Zustand des Benutzerverhaltens muss irgendwo gespeichert werden da bietet React diese Lösung.   * Vorteil davon ist es, dass auf die Veränderungen des Benutzers sehr schnell reagiert werden kann.   * Dieser Hook ist eigentlich eine Art von Programmierstil oder eine sehr gute Herangehensweise bei einer typtypisierte sprache welches nicht objekt orientiert ist bietet es einen großer Vorteil an den Code zu Clustern!2. Warum brauchen wir fuer das Suchfeld State?   * Das Suchfeld bietet eine Veränderung an also dynamisches Benutzerverhalten!   * Daher müssen wir hier die Veränderung festhalten und sofort wieder zurückgeben!3. Was macht onChange?   * die onChange Method übersetzt das Benutzerverhalten und erzeugt ein Ereignis.   * Dieses Verhalten sehe genau so wie in Java, wenn man in MVC-Pattern Prinzip programmiert, da hat man in Control die Möglichkeit das Userverhalten direkt anzunehmen, zu übersetzen und an die nächsten Stellen weiterleiten, so verstehe ich es!4. Warum speichern wir gefilterteRechnungen nicht extra im State?   * Unter gefilterteRechnungen speichern wir mehrere Veränderungen ab.   * das heißt im Objekt Rechnung ändern wir hier zwei Variablen.   * Diese zwei Variablen wurden bereits in States gesetzt und unter gefilterteRechnungen nehme die direkte Änderungen an und schreibe diese in unsere Liste bzw. Filtern nur noch den Veränderungen!5. Was ist ein gesteuertes Eingabefeld?   * das heißt für mich die Änderung durch Userverhalten wird in Echtzeit übersetz und sofort angezeigt!   * Der State reguliert hier alles.   * am Anfang ist ein Standardwert festgelegt hier ein leer String und durch Eingabe ins Feld wird die Änderung sofort sichtbar und der State aktualisiert sich mit!6. Warum liegt der State in Anwendung.tsx und nicht in RechnungsListe.tsx?   * In der Anwendung.tsx werden die Daten bereitgestellt und deshalb wird auch die Präsentationslogik hier aufgebaut.   * die restlichen Komponenten sind nur für die Anzeige zuständig - klare Trennung der Aufgaben!   * Ich sehe das wie folgt: Anwendung.tsx beinhaltet für mich das Model und Control   * RechnungsListe.tsx ist für das View zuständig! MVC-Prinzip Denkweise!**Modul 4 – Formulare, neue Rechnungen anlegen und Daten nach oben melden*** *Die wichtigsten Sätze aus Modul 4 für deine Notizen** *Formulare bestehen aus mehreren gesteuerten Eingabefeldern.** *Veränderliche Formularwerte werden im State gespeichert.** *Eine Unterkomponente kann über eine Callback-Prop Daten nach oben melden.** *Eine Callback-Prop ist eine Funktion, die als Prop übergeben wird.** *preventDefault() verhindert das Neuladen der Seite beim Absenden eines Formulars.** *Die Hauptliste der Rechnungen liegt in Anwendung.tsx, weil dort die zentrale Steuerung stattfindet.** *RechnungsFormular.tsx verwaltet die Eingaben, RechnungsListe.tsx zeigt Daten nur an.** *Wenn neuer State vom alten State abhängt, nutzt man die Funktionsschreibweise im Setter.** *Anzeige und Logik sollen in React sauber getrennt bleiben.** *Neue Rechnungen werden oben im Hauptzustand ergänzt und danach automatisch neu angezeigt.*1. Was ist eine Callback-Prop?   * Eine Callback-Prop ist dafür da, dass die Hauptkomponente nicht überlagert wird.   * Es wird Sinngemäß eine neue Unterkomponente erstellt. In diesem Fall Rechnungsformular.   * In Rechnungsformular wird der Anwendungsfall Rechnung anlegen behandelt.   * Und in der Hauptkomponente wird dieser nur aufgerufen.   * Sowas betrachte ich als Java Entwickler in einem Trichter-Modell2. Warum liegt die Rechnungs-Liste in Anwendung.tsx?   * Anwendung.tsx ist hier die Hauptkomponente und es werden alle Daten die Angezeigt werden sollen hier gebündelt und weitergegeben!   * Wahrscheinlich wird hier irgendwann auch der API-Aufruf behandelt.3. Warum hat das Formular eigenen State?   * Alle veränderlichen Daten brauchen einen State!   * Da wir eine Unterkomponente bestimmt haben ist es auch sinnvoll diesen State in Rechnungsformular abzubilden!4. Warum verwenden wir preventDefault()?   * Damit die Seite nicht Neu geladen wird!5. Warum nutzen wir beim Aktualisieren der Rechnungen die Funktionsschreibweise im Setter?   * weil der Setter den State zur Änderung zwingt bzw. hier:     * const \[rechnungen, setzeRechnungen] = useState<Rechnung\[]>     * setzeRechnungen den State ändern kann und Rechnungen nur den aktuellen Stand wiedergibt!6. Warum ist RechnungsListe.tsx weiter nur für die Anzeige zuständig?   * Weil wir in Komponenten Prinzip arbeiten   * jeder Anwendungsfall wird in Komponenten definiert und alles was zur Anzeige oder Eingabe oder Ausgabe zuständig ist, bekommt eine Komponente   * Die RechnungsListe.tsx hat nur die Aufgabe die Liste anzuzeigen und dieser wird üblicherweise in der Hauptkomponente aufgerufen!**Modul 5 – Komponenten sauber schneiden, Wiederverwendung und Vorbereitung auf Backend-Anbindung*** **Eine gute Komponente hat eine klare Verantwortung.*** **Anwendung.tsx soll die Anwendung steuern und zusammensetzen, aber nicht jede Einzelaufgabe selbst enthalten.*** **Datenzugriff sollte nicht direkt in jeder Komponente stehen.*** **rechnungsDienst.ts kapselt den Datenzugriff.*** **Der Dienst simuliert aktuell Daten, wird später aber echte API-Aufrufe an das Backend enthalten.*** **Die Komponente soll nicht wissen, woher die Daten genau kommen.*** **useState speichert Zustand.*** **useEffect führt Seiteneffekte aus, zum Beispiel das Laden von Daten.*** **useEffect wird hier genutzt, um Startdaten beim ersten Laden der Komponente zu laden.*** **FilterBereich.tsx ist eine eigene Komponente, weil Filteranzeige und Filtereingabe eine klare Aufgabe sind.*** **Gemeinsame Typen wie NeueRechnungDaten gehören an einen zentralen Ort.*** **Ladezustand und Fehlerzustand liegen in Anwendung.tsx, weil dort die zentrale Steuerung der Datenanzeige stattfindet.*** **Abgeleitete Daten wie gefilterteRechnungen werden weiterhin berechnet, nicht extra gespeichert.*** **Die Trennung von Darstellung, Steuerung und Datenzugriff macht den Code wartbarer.*** **Diese Struktur bereitet die spätere Backend-Anbindung sauber vor.*** **Später kann rechnungsDienst.ts von Mock-Daten auf echte HTTP-Aufrufe umgestellt werden.*** **Eine gute Struktur reduziert spätere Umbauten.*** **Nicht alles, was man auslagern kann, sollte man sofort auslagern.*** **Ausgelagert wird dann, wenn Logik wiederverwendet wird oder eine Datei zu groß und unübersichtlich wird.*** **In größeren Projekten werden häufig Dienste, eigene Hooks, Hilfsfunktionen, Typen und Komponenten getrennt organisiert.**1. Warum haben wir einen rechnungsDienst.ts eingeführt?   * in dem dienst werden die Datenaufrufe simuliert.   * das ist eine Vorbereitung für den API-Aufruf   * Eine saubere Trennung von Service aufrufen die dann in Anwendung.tsx gesteuert wird2. Was macht useEffect in diesem Modul?   * Zu dem Zeitpunkt des Ladens des Services wird hier bestimmt   * das heißt wir bestimmen zu welchem Zeitpunkt die Daten geladen werden.   * Dadurch hat man im Frontend die Kontrolle über die API-Aufrufe   * Vorher waren die Daten in useState geladen und jetzt wird diese Logik ist useEffect übergeben bzw. eine Erweiterung von useState3. Warum ist FilterBereich.tsx als eigene Komponente sinnvoll?   * Eine gute Erweiterung der Komponentengliederung   * Anwendung.tsx steuert und bündelt alle Komponenten aber hier ist es sinnvoll die Aufgabenbereiche in weitere Komponenten zu gliedern4. Warum liegen Ladezustand und Fehlerzustand in Anwendung.tsx?   * Weil hier die Steuerung in Anwendung.tsx haben   * Gewisse Bereiche können sinngemäß ausgelagert werden in Komponenten aber die Steuerung und Kontrolle hat Anwendung.tsx quasi das Gehirn der Frontend-Logik!5. Warum ist NeueRechnungDaten jetzt zentral in Rechnung.ts definiert?   * Es ist sehr sinnvoll dies in Rechnung.ts auszulagern, weil es mehrere Aufrufe in verschiedenen Komponenten geben kann   * Das bildet direkt schon einen Anwendungsfall ab, man könnte zum Beispiel auch RechnugnsDatenAendern erweitern oder RechnugnsDatenLoeschen.   * All diese Fälle können sauber in den jeweiligen Typen abgebildet werden und Unterstützt die Wartbarkeit!6. Warum ist diese Struktur besser für die spätere Backend-Anbindung?   * Wir haben alles auf einen API-Aufruf vorbereitet.   * In rechnungsDienst könnte man den Backend-Aufruf einbinden - hier soll der Dienst nicht wissen woher und wie die Daten kommen sondern nur das Liefern was ihm aufgetragen wird   * Wir haben alle Aufgabenbereiche in Komponenten gegliedert, alles sauber definiert, die Anwendungsfälle vorbereitet für einen API-Aufruf.   * Meiner Meinung nach könnte man Anwendung.tsx die Steuerung ebenfalls weiter auslagern z.B. den  useEffect(() … Aufruf oder function rechnungAnlegen(daten: NeueRechnungDaten) etc, diese könnte man doch weiter unter Steuerung oder so auslagern und diese Dann gebündelt in Anwendung.tsx aufrufen - was meinst du hier, ich würde gerne deine Meinung dazu wissen und erzähl mir bitte wie es in der Praxis aussieht also in echte großen Projekten...?
