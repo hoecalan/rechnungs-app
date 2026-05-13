@@ -1,18 +1,21 @@
 package de.rechnungsanwendung.backend.dienste;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import de.rechnungsanwendung.backend.modelle.NeueRechnungAnfrage;
 import de.rechnungsanwendung.backend.modelle.RechnungAntwort;
 import de.rechnungsanwendung.backend.modelle.RechnungsStatus;
 
 @Service
 public class RechnungsDienst {
 
-    private final List<RechnungAntwort> beispielRechnungen = List.of(
+    private final List<RechnungAntwort> rechnungen  = new ArrayList<>(List.of(
             new RechnungAntwort(
                     1L,
                     "RE-2026-0001",
@@ -42,16 +45,47 @@ public class RechnungsDienst {
                     RechnungsStatus.OFFEN,
                     new BigDecimal("750.00"),
                     new BigDecimal("142.50"),
-                    new BigDecimal("892.50")));
+                    new BigDecimal("892.50"))));
 
-        public List<RechnungAntwort> alleRechnungenLaden(){
-            return beispielRechnungen;
-        }
+    public List<RechnungAntwort> alleRechnungenLaden() {
+        return rechnungen ;
+    }
 
-        public Optional<RechnungAntwort> rechnungNachIdFinden(Long id) {
-            return beispielRechnungen.stream()
-                    .filter(rechnung -> rechnung.id().equals(id))
-                    .findFirst();
-        }
+    public Optional<RechnungAntwort> rechnungNachIdFinden(Long id) {
+        return rechnungen .stream()
+                .filter(rechnung -> rechnung.id().equals(id))
+                .findFirst();
+    }
+
+    public RechnungAntwort rechnungAnlegen(NeueRechnungAnfrage anfrage) {
+        Long neueID = naechsteIdBerechnen();
+        BigDecimal nettoBetrag = anfrage.nettoBetrag().setScale(2, RoundingMode.HALF_UP);
+        BigDecimal steuerBetrag = nettoBetrag
+                .multiply(new BigDecimal("0.19"))
+                .setScale(2, RoundingMode.HALF_UP);
+        BigDecimal bruttoBetrag = nettoBetrag
+                .add(steuerBetrag)
+                .setScale(2, RoundingMode.HALF_UP);
+
+        RechnungAntwort neueRechnung = new RechnungAntwort(
+                neueID,
+                anfrage.rechnungsNummer(),
+                anfrage.kundenName(),
+                anfrage.status(),
+                nettoBetrag,
+                steuerBetrag,
+                bruttoBetrag
+        );
+        rechnungen.add(0, neueRechnung);
+        
+        return neueRechnung;
+    }
+
+    private Long naechsteIdBerechnen(){
+        return rechnungen.stream()
+                .map(RechnungAntwort::id)
+                .max(Long::compareTo)
+                .orElse(0L) + 1;
+    }
 
 }
