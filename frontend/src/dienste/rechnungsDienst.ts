@@ -1,6 +1,6 @@
-import type { Rechnung } from "../typen/Rechnung";
+import type { NeueRechnungDaten, Rechnung } from "../typen/Rechnung";
 
-const API_BASIS_URL = "http://localhost:8081/api/rechnungen";
+const API_BASIS_URL = "http://localhost:8080/api/rechnungen";
 
 export async function ladeRechnungen(): Promise<Rechnung[]> {
     const antwort = await fetch(API_BASIS_URL);
@@ -25,6 +25,26 @@ export async function ladeRechnungNachId(id: number): Promise<Rechnung> {
     const rechnung = (await antwort.json()) as Rechnung;
 
     return rechnung;
+}
+
+export async function legeRechnungAn(daten: NeueRechnungDaten): Promise<Rechnung> {
+
+    const antwort = await fetch(API_BASIS_URL, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(daten),
+
+    });
+
+    if(!antwort.ok) {
+        throw new Error("Rechnung konnte nicht angelegt werden.");
+    }
+
+    const neueRechnung = (await antwort.json()) as Rechnung;
+
+    return neueRechnung;
 }
 
 

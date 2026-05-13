@@ -3,12 +3,12 @@ import FilterBereich from "./komponenten/FilterBereich";
 import Kopfbereich from "./komponenten/KopfBereich";
 import RechnungsFormular from "./komponenten/RechnungsFormular";
 import RechnungsListe from "./komponenten/RechnungsListe";
-import { ladeRechnungen } from "./dienste/rechnungsDienst";
+import { ladeRechnungen, legeRechnungAn } from "./dienste/rechnungsDienst";
 
-import type { 
-    NeueRechnungDaten, 
-    Rechnung, 
-    RechnungsStatusFilter 
+import type {
+    NeueRechnungDaten,
+    Rechnung,
+    RechnungsStatusFilter
 } from "./typen/Rechnung";
 
 
@@ -37,29 +37,18 @@ function Anwendung() {
     }, []);
 
 
-    function rechnungAnlegen(daten: NeueRechnungDaten) {
-        const neueId =
-            rechnungen.length > 0
-                ? Math.max(...rechnungen.map((rechnung) => rechnung.id)) + 1
-                : 1;
+   async  function rechnungAnlegen(daten: NeueRechnungDaten) {
+        try {
+            setzeFehlerText("");
+            const neueRechnung = await  legeRechnungAn(daten);
 
-        const steuerBetrag = Number((daten.nettoBetrag * 0.19).toFixed(2));
-        const bruttoBetrag = Number((daten.nettoBetrag + steuerBetrag).toFixed(2));
-
-        const neueRechnung: Rechnung = {
-            id: neueId,
-            rechnungsNummer: daten.rechnungsNummer,
-            kundenName: daten.kundenName,
-            status: daten.status,
-            nettoBetrag: daten.nettoBetrag,
-            steuerBetrag,
-            bruttoBetrag,
-        };
-
-        setzeRechnungen((vorherigeRechnungen) => [
-            neueRechnung,
-            ...vorherigeRechnungen,
-        ])
+            setzeRechnungen((vorherigeRechnungen) => [
+                neueRechnung,
+                ...vorherigeRechnungen,
+            ]);
+        } catch (fehler) {
+            setzeFehlerText("Die Rechnung konnte nicht angelegt werden");
+        }
     }
 
     const gefilterteRechnungen = rechnungen.filter((rechnung) => {
@@ -79,10 +68,10 @@ function Anwendung() {
         <main>
             <Kopfbereich titel="Rechnungs-Anwendung" />
 
-            <RechnungsFormular 
-                beiRechnungAnlegen={rechnungAnlegen} 
+            <RechnungsFormular
+                beiRechnungAnlegen={rechnungAnlegen}
                 deaktiviert={laedt}
-                />
+            />
             <FilterBereich
                 suchText={suchText}
                 statusFilter={statusFilter}
@@ -99,7 +88,7 @@ function Anwendung() {
                     <p>{fehlerText}</p>
                 </section>
             ) : (
-                <RechnungsListe rechnungen={gefilterteRechnungen} />            
+                <RechnungsListe rechnungen={gefilterteRechnungen} />
             )}
         </main>
     );

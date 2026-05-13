@@ -5,7 +5,7 @@ import type {
 } from "../typen/Rechnung";
 
 type RechnungsFormularEigenschaften = {
-    beiRechnungAnlegen: (daten: NeueRechnungDaten) => void;
+    beiRechnungAnlegen: (daten: NeueRechnungDaten) => Promise<void>;
     deaktiviert?: boolean;
 };
 
@@ -18,7 +18,7 @@ function RechnungsFormular({
     const [status, setzeStatus] = useState<RechnungsStatus>("OFFEN");
     const [nettoBetrag, setzeNettoBetrag] = useState("");
 
-    function formularAbsenden(ereignis: React.FormEvent<HTMLFormElement>) {
+    async function formularAbsenden(ereignis: React.FormEvent<HTMLFormElement>) {
         ereignis.preventDefault();
 
         const nettoAlsZahl = Number(nettoBetrag);
