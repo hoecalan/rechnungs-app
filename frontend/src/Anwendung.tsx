@@ -37,18 +37,15 @@ function Anwendung() {
     }, []);
 
 
-   async  function rechnungAnlegen(daten: NeueRechnungDaten) {
-        try {
-            setzeFehlerText("");
-            const neueRechnung = await  legeRechnungAn(daten);
+    async function rechnungAnlegen(daten: NeueRechnungDaten) {
+        setzeFehlerText("");
+        const neueRechnung = await legeRechnungAn(daten);
 
-            setzeRechnungen((vorherigeRechnungen) => [
-                neueRechnung,
-                ...vorherigeRechnungen,
-            ]);
-        } catch (fehler) {
-            setzeFehlerText("Die Rechnung konnte nicht angelegt werden");
-        }
+        setzeRechnungen((vorherigeRechnungen) => [
+            neueRechnung,
+            ...vorherigeRechnungen,
+        ]);
+
     }
 
     const gefilterteRechnungen = rechnungen.filter((rechnung) => {

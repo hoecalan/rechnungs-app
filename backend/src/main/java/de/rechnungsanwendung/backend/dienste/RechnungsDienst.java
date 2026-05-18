@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.rechnungsanwendung.backend.modelle.NeueRechnungAnfrage;
 import de.rechnungsanwendung.backend.modelle.RechnungAntwort;
@@ -67,10 +69,20 @@ public class RechnungsDienst {
                 .add(steuerBetrag)
                 .setScale(2, RoundingMode.HALF_UP);
 
+        String rechnungsNummer = anfrage.rechnungsNummer().trim();
+        String kundenName = anfrage.kundenName().trim();
+        
+        if(rechnungsNummerBereitsVorhanden(rechnungsNummer)){
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT,
+                        "Die Rechnungsnummer ist bereits vorhanden."
+                );
+        }
+
         RechnungAntwort neueRechnung = new RechnungAntwort(
                 neueID,
-                anfrage.rechnungsNummer(),
-                anfrage.kundenName(),
+                rechnungsNummer,
+                kundenName,
                 anfrage.status(),
                 nettoBetrag,
                 steuerBetrag,
@@ -79,6 +91,13 @@ public class RechnungsDienst {
         rechnungen.add(0, neueRechnung);
         
         return neueRechnung;
+    }
+
+    private boolean rechnungsNummerBereitsVorhanden(String rechnungsNummer){
+        return rechnungen.stream()
+                .anyMatch(rechnung ->
+                        rechnung.rechnungsNummer().equalsIgnoreCase(rechnungsNummer)       
+                );
     }
 
     private Long naechsteIdBerechnen(){

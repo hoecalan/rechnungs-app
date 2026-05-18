@@ -1,7 +1,7 @@
-import { useState } from "react";
-import type { 
-    NeueRechnungDaten, 
-    RechnungsStatus, 
+import { useState, type FormEvent } from "react";
+import type {
+    NeueRechnungDaten,
+    RechnungsStatus,
 } from "../typen/Rechnung";
 
 type RechnungsFormularEigenschaften = {
@@ -17,8 +17,10 @@ function RechnungsFormular({
     const [kundenName, setzeKundenName] = useState("");
     const [status, setzeStatus] = useState<RechnungsStatus>("OFFEN");
     const [nettoBetrag, setzeNettoBetrag] = useState("");
+    const [formularFehler, setzeFormularFehler] = useState("");
+    const [speichert, setzeSpeichert] = useState(false);
 
-    async function formularAbsenden(ereignis: React.FormEvent<HTMLFormElement>) {
+    async function formularAbsenden(ereignis: FormEvent<HTMLFormElement>) {
         ereignis.preventDefault();
 
         const nettoAlsZahl = Number(nettoBetrag);
@@ -29,26 +31,47 @@ function RechnungsFormular({
             Number.isNaN(nettoAlsZahl) ||
             nettoAlsZahl <= 0
         ) {
-            alert("Bitte alle Felder guelitg ausfuellen.")
+            setzeFormularFehler("Bitte alle Felder guelitg ausfuellen.")
             return;
         }
 
-        beiRechnungAnlegen({
-            rechnungsNummer: rechnungsNummer.trim(),
-            kundenName: kundenName.trim(),
-            status,
-            nettoBetrag: nettoAlsZahl,
-        });
+        try {
+            setzeSpeichert(true);
+            setzeFormularFehler("");
 
-        setzeRechnungsNummer("");
-        setzeKundenName("");
-        setzeStatus("OFFEN");
-        setzeNettoBetrag("");
+            await beiRechnungAnlegen({
+                rechnungsNummer: rechnungsNummer.trim(),
+                kundenName: kundenName.trim(),
+                status,
+                nettoBetrag: nettoAlsZahl,
+            });
+
+            setzeRechnungsNummer("");
+            setzeKundenName("");
+            setzeStatus("OFFEN");
+            setzeNettoBetrag("");
+        } catch (fehler) {
+            const meldung =
+                fehler instanceof Error
+                    ? fehler.message
+                    : "Die Rechnung konnte nicht angelegt werden.";
+            setzeFormularFehler(meldung);
+        } finally {
+            setzeSpeichert(false);
+        }
     }
 
+    const formularDeaktiviert = deaktiviert || speichert;
+
     return (
-        <section>
+        <section className="formularBereich">
             <h2>Neue Rechnung anlegen</h2>
+
+            {formularFehler !== "" && (
+                <div className="formularFehler">
+                    <p>{formularFehler}</p>
+                </div>
+            )}
 
             <form onSubmit={formularAbsenden} className="formular">
                 <div className="eingabeGruppe">
@@ -57,7 +80,7 @@ function RechnungsFormular({
                         id="rechnungsNummer"
                         type="text"
                         value={rechnungsNummer}
-                        disabled={deaktiviert}
+                        disabled={formularDeaktiviert}
                         onChange={(ereignis) => setzeRechnungsNummer(ereignis.target.value)}
                     />
                 </div>
@@ -68,7 +91,7 @@ function RechnungsFormular({
                         id="kundenName"
                         type="text"
                         value={kundenName}
-                        disabled={deaktiviert}
+                        disabled={formularDeaktiviert}
                         onChange={(ereignis) => setzeKundenName(ereignis.target.value)}
                     />
                 </div>
@@ -78,7 +101,7 @@ function RechnungsFormular({
                     <select
                         id="status"
                         value={status}
-                        disabled={deaktiviert}
+                        disabled={formularDeaktiviert}
                         onChange={(ereignis) => setzeStatus(ereignis.target.value as RechnungsStatus)}
                     >
                         <option value={"OFFEN"}>OFFEN</option>
@@ -92,13 +115,16 @@ function RechnungsFormular({
                     <input
                         id="nettoBetrag"
                         type="number"
+                        step="0.01"
                         value={nettoBetrag}
-                        disabled={deaktiviert}
+                        disabled={formularDeaktiviert}
                         onChange={(ereignis) => setzeNettoBetrag(ereignis.target.value)}
                     />
                 </div>
 
-                <button type="submit" disabled={deaktiviert}>Rechnung anlegn</button>
+                <button type="submit" disabled={formularDeaktiviert}>
+                    {speichert ? "Wird gespeichert..." : "Rechnung anlegen"}
+                </button>
             </form>
         </section>
 
