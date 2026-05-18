@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.rechnungsanwendung.backend.dienste.RechnungsDienst;
 import de.rechnungsanwendung.backend.modelle.NeueRechnungAnfrage;
 import de.rechnungsanwendung.backend.modelle.RechnungAntwort;
+import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +41,7 @@ public class RechnungsController {
     }
 
     @PostMapping
-    public ResponseEntity<RechnungAntwort> rechnungAnlegen(@RequestBody NeueRechnungAnfrage anfrage) {
+    public ResponseEntity<RechnungAntwort> rechnungAnlegen(@Valid @RequestBody NeueRechnungAnfrage anfrage) {
         RechnungAntwort neueRechnung = rechnungsDienst.rechnungAnlegen(anfrage);
 
         return ResponseEntity
