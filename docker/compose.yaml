@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: rechnungs_postgres
+    environment:
+      POSTGRES_DB: rechnungs_app
+      POSTGRES_USER: rechnungs_user
+      POSTGRES_PASSWORD: rechnungs_passwort
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_daten:/var/lib/postgresql/data
+
+volumes:
+  postgres_daten:
